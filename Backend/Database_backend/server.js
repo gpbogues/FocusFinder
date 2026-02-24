@@ -63,10 +63,10 @@ app.post("/register", async (req, res) => {
 
 // Login API
 app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   const [rows] = await db.execute(
-    "SELECT * FROM UserData WHERE uName=? AND uPassword=?",
-    [username, password]
+    "SELECT * FROM UserData WHERE uEmail=? AND uPassword=?",
+    [email, password]
   );
 
   // row exists if user exists hence (row.length > 0)
