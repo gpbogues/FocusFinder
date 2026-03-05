@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import "./Login.css";
 
 function Login() {
@@ -7,6 +9,8 @@ function Login() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   // Handle submit for both login and register
   const handleSubmit = async (
@@ -18,8 +22,8 @@ function Login() {
     // it is frontend acessing backend api requests to database
     // if(isRegister) then takes three values and passes, else two
     const url = isRegister
-      ? "http://localhost:5000/register"
-      : "http://localhost:5000/login";
+      ? "http://100.27.212.225:5000/register"
+      : "http://100.27.212.225:5000/login";
 
     const body = isRegister
       ? { username, email, password }
@@ -33,8 +37,19 @@ function Login() {
       });
 
       const data = await res.json();
-      //takes backend message if exist, such as errors like email dupe
-      alert(data.message);
+
+      if (!isRegister) {
+        // Login flow: save user to context and redirect home
+        if (data.success) {
+          login({ username: data.username, email: data.email });
+          navigate("/");
+        } else {
+          alert("Invalid email or password");
+        }
+      } else {
+        //takes backend message if exist, such as errors like email dupe
+        alert(data.message);
+      }
 
     } catch (err) {
       alert("Server error");
