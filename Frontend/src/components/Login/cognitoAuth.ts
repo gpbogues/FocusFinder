@@ -11,6 +11,7 @@ import {
   ResendConfirmationCodeCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
+//NEEDS TO BE UDPATED ONCE FRONTEND IS HOSTED, CURRENTLY USING LOCALHOST FOR TESTING PURPOSES
 const REDIRECT_URI = "http://localhost:5173";
 
 const cognitoAuthConfig = {
